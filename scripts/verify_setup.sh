@@ -7,7 +7,7 @@ echo "🔍 ==== Provet Setup Verification ==== 🔍"
 
 # Check project structure
 echo "📂 Checking project structure..."
-required_dirs=("api" "provet" "data" "solution" "templates" "scripts")
+required_dirs=("api" "provet" "data" "solution" "scripts")
 missing_dirs=()
 
 for dir in "${required_dirs[@]}"; do
