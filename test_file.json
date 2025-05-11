@@ -1,0 +1,1 @@
+{"patient": {"name": "Max", "species": "Dog", "breed": "Golden Retriever", "gender": "Male", "neutered": true, "date_of_birth": "2018-05-10", "weight": "32 kg"}, "consultation": {"date": "2023-07-15", "time": "10:30", "reason": "Vomiting", "type": "Outpatient"}}
