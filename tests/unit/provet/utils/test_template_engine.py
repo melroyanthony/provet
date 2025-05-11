@@ -37,26 +37,6 @@ class TestTemplateEngine:
         assert engine.templates_dir == default_dir
         mock_environment.assert_called_once()
 
-    @patch("provet.utils.template_engine.Environment")
-    def test_init_custom_dir(self, mock_environment, tmp_path):
-        """Test initialization with a custom templates directory.
-
-        Given: A custom template directory
-        When: A TemplateEngine instance is created with the directory
-        Then: It should use the provided directory.
-        """
-        # Setup
-        custom_dir = tmp_path / "custom_templates"
-        mock_env = MagicMock()
-        mock_environment.return_value = mock_env
-
-        # Execute
-        engine = TemplateEngine(templates_dir=custom_dir)
-
-        # Assert
-        assert engine.templates_dir == custom_dir
-        mock_environment.assert_called_once()
-
     def test_get_template(self):
         """Test getting a template by name.
 
@@ -120,43 +100,3 @@ class TestTemplateEngine:
         assert result == expected_result
         engine.get_template.assert_called_once_with(template_name)
         mock_template.render.assert_called_once_with(**context)
-
-    def test_update_templates_dir_valid(self, tmp_path):
-        """Test updating the templates directory with a valid directory.
-
-        Given: A valid directory path
-        When: update_templates_dir is called
-        Then: It should update the templates directory and reinitialize the environment.
-        """
-        # Setup
-        engine = TemplateEngine()
-        new_dir = tmp_path / "new_templates"
-        new_dir.mkdir()
-
-        with patch("provet.utils.template_engine.Environment") as mock_environment:
-            mock_env = MagicMock()
-            mock_environment.return_value = mock_env
-
-            # Execute
-            engine.update_templates_dir(new_dir)
-
-            # Assert
-            assert engine.templates_dir == new_dir
-            mock_environment.assert_called_once()
-
-    def test_update_templates_dir_invalid(self):
-        """Test updating the templates directory with an invalid directory.
-
-        Given: A non-existent directory path
-        When: update_templates_dir is called
-        Then: It should raise a ValueError.
-        """
-        # Setup
-        engine = TemplateEngine()
-        invalid_dir = Path("/nonexistent/directory")
-
-        # Execute and Assert
-        with pytest.raises(ValueError) as excinfo:
-            engine.update_templates_dir(invalid_dir)
-
-        assert "does not exist" in str(excinfo.value)

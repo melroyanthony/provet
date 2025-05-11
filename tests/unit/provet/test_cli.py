@@ -31,7 +31,6 @@ class TestCommandLineInterface:
 
         # Assert
         assert args.file == "test.json"
-        assert args.template_dir is None
         assert args.output_dir is None
 
     def test_parse_args_optional(self):
@@ -45,8 +44,6 @@ class TestCommandLineInterface:
         test_args = [
             "provet",
             "test.json",
-            "--template-dir",
-            "custom_templates",
             "--output-dir",
             "custom_output",
         ]
@@ -57,7 +54,6 @@ class TestCommandLineInterface:
 
         # Assert
         assert args.file == "test.json"
-        assert args.template_dir == Path("custom_templates")
         assert args.output_dir == Path("custom_output")
 
     @patch("provet.core.app.create_discharge_note_generator")
@@ -68,18 +64,6 @@ class TestCommandLineInterface:
         Given: Valid command-line arguments and a mock generator
         When: main is called with mocked components
         Then: It should exercise the success path.
-        """
-        # Skip this test since we have other tests that achieve the same coverage
-        pytest.skip("Coverage achieved through other tests")
-
-    @patch("provet.core.app.create_discharge_note_generator")
-    @patch("builtins.print")
-    def test_main_with_template_dir(self, mock_print, mock_create_generator):
-        """Test the main function with a custom template directory.
-
-        Given: Command-line arguments with a custom template directory
-        When: main is called with mocked components
-        Then: It should exercise the template_dir path.
         """
         # Skip this test since we have other tests that achieve the same coverage
         pytest.skip("Coverage achieved through other tests")
@@ -142,12 +126,8 @@ class TestCommandLineInterface:
             # Cover lines 51-54
             args = types.SimpleNamespace(
                 file="test.json",
-                template_dir=Path("templates"),
                 output_dir=None
             )
-            
-            # Cover line 55
-            bool(args.template_dir)  # Just evaluate this to cover the if condition
             
             # Cover lines 60-61
             fake_output_path = "/fake/path/output.json"

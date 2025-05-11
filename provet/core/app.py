@@ -29,17 +29,6 @@ class DischargeNoteGenerator:
         self.llm_service = create_llm_service(self.template_engine)
         self.io_manager = IOManager()
 
-    def update_template_dir(self, templates_dir: Path) -> None:
-        """Update the templates directory.
-
-        Args:
-            templates_dir: New directory containing template files.
-
-        Raises:
-            ValueError: If the directory doesn't exist.
-        """
-        self.template_engine.update_templates_dir(templates_dir)
-
     def process_file(self, file_path: str | Path) -> str:
         """Process a consultation data file and generate a discharge note.
 

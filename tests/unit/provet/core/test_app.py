@@ -34,26 +34,6 @@ class TestDischargeNoteGenerator:
             assert generator.template_engine is not None
             assert generator.io_manager is not None
 
-    def test_update_template_dir(self):
-        """Test updating the template directory.
-
-        Given: A DischargeNoteGenerator instance and a new template directory
-        When: update_template_dir is called
-        Then: It should update the template directory in the template engine.
-        """
-        # Setup
-        generator = DischargeNoteGenerator()
-        generator.template_engine = MagicMock()
-        new_templates_dir = Path("/new/templates/dir")
-
-        # Execute
-        generator.update_template_dir(new_templates_dir)
-
-        # Assert
-        generator.template_engine.update_templates_dir.assert_called_once_with(
-            new_templates_dir
-        )
-
     @pytest.mark.parametrize(
         "context, discharge_note",
         [

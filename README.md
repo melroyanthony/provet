@@ -9,7 +9,7 @@ Provet is a specialized tool that **automatically generates high-quality dischar
 ## ✨ Features
 
 - 🚀 **Advanced LLM Integration**: Leverages OpenAI's models to generate accurate, contextual discharge notes
-- 📋 **Template-Based Generation**: Uses Jinja2 templates for customizable note formatting
+- 📋 **Template-Based Generation**: Uses Jinja2 templates for consistent note formatting
 - 🔄 **Multiple Deployment Options**: Run as CLI tool, API service, or use in development
 - 🐳 **Docker Support**: Containerized deployment for easy scaling
 - 📱 **REST API**: Integrate with existing veterinary practice management systems
@@ -102,12 +102,6 @@ python -m provet data/consultation1.json
 
 This will generate a discharge note and save it to a JSON file in the `solution` directory.
 
-You can specify a custom template directory:
-
-```bash
-./provet_cli.py data/consultation1.json --template-dir path/to/templates
-```
-
 ### API Service
 
 When running with the Docker setup:
@@ -150,7 +144,7 @@ provet/                 # Core package
 │   ├── data_models.py  # Data models using dataclasses
 │   ├── io_manager.py   # File I/O operations
 │   └── llm_service.py  # Language model interaction
-├── templates/          # Jinja2 templates
+├── templates/          # Built-in Jinja2 templates
 └── utils/              # Utility modules
 
 api/                    # API service
@@ -169,7 +163,6 @@ data/                   # Sample input data
 └── consultation2.json  # More sample consultation data
 
 solution/               # Generated output files
-templates/              # Custom templates (can override defaults)
 
 # Dependency files
 pyproject.toml          # Project configuration and dependencies

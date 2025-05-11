@@ -22,14 +22,9 @@ class TemplateEngine:
         env (Environment): Jinja2 environment for template processing.
     """
 
-    def __init__(self, templates_dir: Path | None = None) -> None:
-        """Initialize the template engine.
-
-        Args:
-            templates_dir: Directory containing template files.
-                If not provided, uses default from config.
-        """
-        self.templates_dir = templates_dir or config_manager.get("templates_dir")
+    def __init__(self) -> None:
+        """Initialize the template engine using the default templates directory from config."""
+        self.templates_dir = config_manager.get("templates_dir")
         self.env = Environment(loader=FileSystemLoader(self.templates_dir))
 
     def get_template(self, template_name: str) -> Template:
@@ -62,18 +57,3 @@ class TemplateEngine:
         """
         template = self.get_template(template_name)
         return template.render(**context)
-
-    def update_templates_dir(self, templates_dir: Path) -> None:
-        """Update the templates directory.
-
-        Args:
-            templates_dir: New directory containing template files.
-
-        Raises:
-            ValueError: If the directory doesn't exist.
-        """
-        if not templates_dir.is_dir():
-            raise ValueError(f"Template directory {templates_dir} does not exist.")
-
-        self.templates_dir = templates_dir
-        self.env = Environment(loader=FileSystemLoader(templates_dir))

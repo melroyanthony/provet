@@ -25,11 +25,6 @@ def parse_args() -> argparse.Namespace:
         "file", help="Path to a JSON file containing consultation data."
     )
     parser.add_argument(
-        "--template-dir",
-        help="Directory containing Jinja2 templates (default: ./templates)",
-        type=Path,
-    )
-    parser.add_argument(
         "--output-dir",
         help="Directory to save the output file (default: ./solution)",
         type=Path,
@@ -49,10 +44,6 @@ def main() -> int:
     try:
         # Create discharge note generator
         generator = create_discharge_note_generator()
-
-        # Update template directory if provided
-        if args.template_dir:
-            generator.update_template_dir(args.template_dir)
 
         # Process file
         output_path = generator.process_file(args.file)
