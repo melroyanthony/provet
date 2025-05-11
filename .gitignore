@@ -45,4 +45,10 @@ env/
 *.swo
 
 # Mac OS files
-.DS_Store 
+.DS_Store
+
+# Uploads
+temp_uploads/
+
+# uv package manager
+uv.lock 
