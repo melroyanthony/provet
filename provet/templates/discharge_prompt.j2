@@ -1,0 +1,94 @@
+Generate a veterinary discharge note for the following pet:
+
+Patient Name: {{ patient.name | default('Unknown') }}
+Species: {{ patient.species | default('Unknown') }}
+Breed: {{ patient.breed | default('Unknown') }}
+Gender: {{ patient.gender | default('Unknown') }} {% if patient.neutered %}(neutered){% else %}(not neutered){% endif %}
+Age: {% if patient.date_of_birth %}{{ ((consultation.date | default('2025-01-01')) | string)[:4] | int - (patient.date_of_birth | string)[:4] | int }} years{% else %}Unknown{% endif %}
+Weight: {{ patient.weight | default('Unknown') }}
+Microchip: {% if patient.microchip %}{{ patient.microchip }}{% else %}Not microchipped{% endif %}
+
+Consultation Details:
+Date: {{ consultation.date | default('Unknown') }}
+Time: {{ consultation.time | default('Unknown') }}
+Reason for Visit: {{ consultation.reason | default('Unknown') }}
+Type: {{ consultation.type | default('Unknown') }}
+
+Clinical Notes:
+{% if clinical_notes %}
+{% for note in clinical_notes %}
+- {{ note.type | default('general') | capitalize }}: {{ note.note | default('') }}
+{% endfor %}
+{% else %}
+No clinical notes provided.
+{% endif %}
+
+{% if procedures %}
+Procedures Performed:
+{% for procedure in procedures %}
+- {{ procedure.name | default('Unknown Procedure') }}{% if procedure.code %} (Code: {{ procedure.code }}{% endif %}{% if procedure.time %}, Time: {{ procedure.time }}{% endif %}{% if procedure.total_price %}, Price: {{ procedure.total_price / 100 }} {{ procedure.currency }}{% endif %})
+{% endfor %}
+{% endif %}
+
+{% if medicines %}
+Medicines Administered:
+{% for medicine in medicines %}
+- {{ medicine.name | default('Unknown Medicine') }}
+{% endfor %}
+{% endif %}
+
+{% if prescriptions %}
+Prescriptions:
+{% for prescription in prescriptions %}
+- {{ prescription.name | default('Unknown Prescription') }}
+{% endfor %}
+{% endif %}
+
+{% if diagnostics %}
+Diagnostics Performed:
+{% for diagnostic in diagnostics %}
+- {{ diagnostic.name | default('Unknown Diagnostic') }}: {{ diagnostic.result | default('No result') }}
+{% endfor %}
+{% endif %}
+
+Based on the above information, generate a discharge note that follows this exact format:
+
+```
+Discharge Note for [Patient Name]
+
+Date: [Consultation Date]
+Time: [Consultation Time]
+
+Patient Information:
+- Species: [Species]
+- Breed: [Breed]
+- Gender: [Gender] [(not) neutered]
+- Age: [Age]
+- Weight: [Weight]
+- Microchip: [Microchip Number or "Not microchipped"]
+
+Consultation Details:
+- Type: [Consultation Type]
+- Reason: [Reason for Visit]
+
+Summary:
+[Brief summary of the visit, clinical findings, and current status]
+
+Procedures:
+[List of procedures performed with details, or "No procedures performed"]
+
+Medications:
+[List of medications or "No medications prescribed"]
+
+Instructions:
+- [Specific care instructions]
+- [Activity restrictions or recommendations]
+- [Feeding instructions if applicable]
+- [Monitoring instructions]
+- [When to contact the clinic]
+
+Follow-up:
+[Information about follow-up appointments if needed or "No follow-up required unless issues develop"]
+```
+
+The note should be written in a clear, professional but friendly tone. 
