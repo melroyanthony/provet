@@ -31,7 +31,6 @@ RUN echo "# Provet API" > README.md
 COPY provet/ /app/provet/
 COPY api/ /app/api/
 COPY data/ /app/data/
-COPY templates/ /app/templates/
 COPY scripts/ /app/scripts/
 
 # Create necessary directories
