@@ -90,6 +90,7 @@ async def generate_discharge_note(
 
         # Create a temp file to store the consultation data
         temp_file = UPLOAD_DIR / f"consultation_{id(request)}.json"
+        output_path: Path | None = None
         try:
             with temp_file.open("w") as f:
                 json.dump(request.consultation_data, f)
@@ -107,7 +108,7 @@ async def generate_discharge_note(
             # Clean up temporary files
             if temp_file.exists():
                 temp_file.unlink()
-            if output_path.exists():
+            if output_path and output_path.exists():
                 output_path.unlink()
 
     except Exception as e:
