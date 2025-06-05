@@ -90,6 +90,7 @@ async def generate_discharge_note(
 
         # Create a temp file to store the consultation data
         temp_file = UPLOAD_DIR / f"consultation_{id(request)}.json"
+        output_path: Path | None = None
         try:
             with temp_file.open("w") as f:
                 json.dump(request.consultation_data, f)
@@ -107,8 +108,12 @@ async def generate_discharge_note(
             # Clean up temporary files
             if temp_file.exists():
                 temp_file.unlink()
-            if output_path.exists():
-                output_path.unlink()
+            # output_path might remain None if discharge_generator.process_file fails
+            if output_path:
+                if output_path.exists():
+                    output_path.unlink()
+                else:
+                    logger.info(f"Skipping cleanup for output_path as it does not exist: {output_path}")
 
     except Exception as e:
         logger.error(f"❌ Error generating discharge note: {e}")
