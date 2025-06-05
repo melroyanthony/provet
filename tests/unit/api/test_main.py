@@ -43,7 +43,7 @@ class TestAPIEndpoints:
 
         Given: The API server
         When: A GET request is made to "/"
-        Then: It should return a 200 status code and a status of "ok".
+        Then: It should return a 200 status code and a status of "✅ API is up and running".
         """
         # Execute
         response = test_client.get("/")
