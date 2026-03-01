@@ -2,7 +2,7 @@
     "patient": {
         "name": "Darth Vader",
         "species": "Dog (Canine - Domestic)",
-        "breed": "Chiuaua",
+        "breed": "Chihuahua",
         "gender": "male",
         "neutered": false,
         "date_of_birth": "2019-01-01",
