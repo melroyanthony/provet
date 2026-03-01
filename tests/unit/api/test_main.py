@@ -117,31 +117,29 @@ class TestAPIEndpoints:
         mock_generator.process_file.side_effect = ValueError("Test error")
         mock_upload_dir.__truediv__.return_value = Path("test_file.json")
         
-        # Mock Path.exists and Path.unlink to avoid UnboundLocalError for output_path
-        with patch("pathlib.Path.exists", return_value=False):  # Avoid trying to unlink files
-            # Execute
-            response = test_client.post(
-                "/generate",
-                json={
-                    "consultation_data": {
-                        "patient": {
-                            "name": "Max",
-                            "species": "Dog",
-                            "breed": "Golden Retriever",
-                            "gender": "Male",
-                            "neutered": True,
-                            "date_of_birth": "2018-05-10",
-                            "weight": "32 kg",
-                        },
-                        "consultation": {
-                            "date": "2023-07-15",
-                            "time": "10:30",
-                            "reason": "Vomiting",
-                            "type": "Outpatient",
-                        },
-                    }
-                },
-            )
+        # Execute without patching Path.exists to ensure cleanup handles None output_path
+        response = test_client.post(
+            "/generate",
+            json={
+                "consultation_data": {
+                    "patient": {
+                        "name": "Max",
+                        "species": "Dog",
+                        "breed": "Golden Retriever",
+                        "gender": "Male",
+                        "neutered": True,
+                        "date_of_birth": "2018-05-10",
+                        "weight": "32 kg",
+                    },
+                    "consultation": {
+                        "date": "2023-07-15",
+                        "time": "10:30",
+                        "reason": "Vomiting",
+                        "type": "Outpatient",
+                    },
+                }
+            },
+        )
 
         # Assert
         assert response.status_code == 500
